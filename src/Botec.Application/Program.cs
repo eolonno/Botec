@@ -1,10 +1,15 @@
-﻿using Telegram.Bot;
+﻿using Microsoft.Extensions.Configuration;
+using Telegram.Bot;
 using Telegram.Bot.Exceptions;
 using Telegram.Bot.Polling;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 
-var botClient = new TelegramBotClient();
+var configuration = new ConfigurationBuilder()
+    .AddUserSecrets<Program>()
+    .Build();
+
+var botClient = new TelegramBotClient(configuration["Token"]);
 
 using var cancellationToken = new CancellationTokenSource();
 
@@ -32,7 +37,7 @@ async Task HandleUpdateAsync(ITelegramBotClient botClient, Update update, Cancel
         return;
     if (message.Text is not {} messageText)
         return;
-
+    
     var chatId = message.Chat.Id;
 
     Console.WriteLine($"Received a '{messageText}' message in chat {chatId}.");
