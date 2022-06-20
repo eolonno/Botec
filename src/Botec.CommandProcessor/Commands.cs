@@ -8,4 +8,9 @@ public class Commands
         "bot repeat"
     };
 
+    public static IEnumerable<string> UpdateCockCommands = new List<string>
+    {
+        "бот кок",
+        "bot cock"
+    };
 }
