@@ -1,12 +1,12 @@
 ﻿using Telegram.Bot;
 using Telegram.Bot.Types;
 
-namespace Botec.CommandProcessor;
+namespace Botec.CommandProcessor.CommandsLogic;
 
 public static class RepeatLogic
 {
     public static async Task RepeatAsync(
-        ITelegramBotClient botClient, Update update, string command, CancellationToken cancellationToken)
+        ITelegramBotClient botClient, Update update, CancellationToken cancellationToken, string command)
     {
         var message = update.Message!.Text!;
         var commandEndIndex = command.Length;
