@@ -10,7 +10,7 @@ public class MessageProcessing
 
     static MessageProcessing()
     {
-        Commands = GetCommandsDictionaryAsync();
+        Commands = GetCommandsDictionary();
     }
 
     public static async Task ProcessMessage(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken)
@@ -30,10 +30,12 @@ public class MessageProcessing
         }
     }
 
-    private static Dictionary<string, Func<ITelegramBotClient, Update, string, CancellationToken, Task>> GetCommandsDictionaryAsync()
+    private static Dictionary<string, Func<ITelegramBotClient, Update, string, CancellationToken, Task>> GetCommandsDictionary()
     {
-        var commands = new Dictionary<string, Func<ITelegramBotClient, Update, string, CancellationToken, Task>>();
-        commands.Add("бот повтори", RepeatLogic.RepeatAsync);
+        var commands = new Dictionary<string, Func<ITelegramBotClient, Update, string, CancellationToken, Task>>
+        {
+            { "бот повтори", RepeatLogic.RepeatAsync }
+        };
 
         return commands;
     }
