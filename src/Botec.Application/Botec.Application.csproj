@@ -18,6 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Botec.CommandProcessor\Botec.CommandProcessor.csproj" />
     <ProjectReference Include="..\Botec.Domain\Botec.Domain.csproj" />
   </ItemGroup>
 
