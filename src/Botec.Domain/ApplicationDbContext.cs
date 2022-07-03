@@ -11,6 +11,8 @@ public class ApplicationDbContext : DbContext
     public DbSet<WhoIAm> WhoIAm { get; set; }
     public DbSet<Joke> Joke { get; set; }
     public DbSet<Nickname> Nickname { get; set; }
+    public DbSet<Account> Account { get; set; }
+    public DbSet<UserSettings> UserSettings { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -19,14 +21,14 @@ public class ApplicationDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<User>()
-            .HasMany(x => x.Account)
-            .WithOne(x => x.User);
+        //modelBuilder.Entity<User>()
+        //    .HasMany(x => x.Accounts)
+        //    .WithOne(x => x.User);
 
-        modelBuilder.Entity<WhoIAm>()
-            .HasOne(x => x.Nickname);
+        //modelBuilder.Entity<WhoIAm>()
+        //    .HasOne(x => x.Nickname);
 
-        modelBuilder.Entity<Chat>()
-            .HasOne(x => x.Faggot);
+        //modelBuilder.Entity<Chat>()
+        //    .HasOne(x => x.Faggot);
     }
 }

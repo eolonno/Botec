@@ -6,7 +6,7 @@ namespace Botec.CommandProcessor.CommandsLogic;
 public static class RepeatLogic
 {
     public static async Task RepeatAsync(
-        ITelegramBotClient botClient, Update update, CancellationToken cancellationToken, string command)
+        ITelegramBotClient botClient, Update update, string command, CancellationToken cancellationToken)
     {
         var message = update.Message!.Text!;
         var commandEndIndex = command.Length;
