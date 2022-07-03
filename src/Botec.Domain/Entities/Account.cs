@@ -4,8 +4,10 @@ namespace Botec.Domain.Entities;
 
 public class Account
 {
-    public Guid Id { get; set; }
+    public long Id { get; set; }
     public MessengerType MessengerType { get; set; }
-    public long AccountId { get; set; }
+    public string FirstName { get; set; }
+    public string? LastName { get; set; }
+    public string? Username { get; set; }
     public User User { get; set; }
 }

@@ -1,32 +1,52 @@
 ﻿using Botec.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace Botec.Domain;
 
 public class ApplicationDbContext : DbContext
 {
+    public DbSet<Account> Account { get; set; }
     public DbSet<User> User { get; set; }
-    public DbSet<Cock> Cock { get; set; }
     public DbSet<Chat> Chat { get; set; }
-    public DbSet<WhoIAm> WhoIAm { get; set; }
-    public DbSet<Joke> Joke { get; set; }
+    public DbSet<Cock> Cock { get; set; }
+    public DbSet<NicknameOfTheDay> NicknameOfTheDay { get; set; }
     public DbSet<Nickname> Nickname { get; set; }
+    public DbSet<Joke> Joke { get; set; }
+    public DbSet<MessageLog> MessageLog { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        optionsBuilder.UseSqlServer("Server=localhost;Database=Botec;Trusted_Connection=True;");
+        var configuration = new ConfigurationBuilder()
+            .AddUserSecrets<ApplicationDbContext>()
+            .Build();
+
+        //optionsBuilder.UseSqlServer("Server=localhost;Database=Botec;Trusted_Connection=True;");
+        optionsBuilder.UseNpgsql(configuration["ConnectionString"]);
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<User>()
-            .HasMany(x => x.Account)
+            .HasOne(x => x.Cock)
+            .WithOne(x => x.User)
+            .HasForeignKey<Cock>(x => x.UserId);
+        modelBuilder.Entity<User>()
+            .HasOne(x => x.NicknameOfTheDay)
+            .WithOne(x => x.User)
+            .HasForeignKey<NicknameOfTheDay>(x => x.UserId);
+        modelBuilder.Entity<User>()
+            .HasMany(x => x.Accounts)
             .WithOne(x => x.User);
 
-        modelBuilder.Entity<WhoIAm>()
+        modelBuilder.Entity<Chat>()
+            .HasOne(x => x.FaggotOfTheDay);
+
+        modelBuilder.Entity<NicknameOfTheDay>()
             .HasOne(x => x.Nickname);
 
-        modelBuilder.Entity<Chat>()
-            .HasOne(x => x.Faggot);
+        modelBuilder.Entity<Cock>()
+            .HasOne(x => x.User)
+            .WithOne(x => x.Cock);
     }
 }

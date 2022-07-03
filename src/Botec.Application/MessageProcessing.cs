@@ -1,4 +1,7 @@
 ﻿using Botec.CommandProcessor;
+using Botec.CommandProcessor.CommandsLogic;
+using Botec.CommandProcessor.Services;
+using Newtonsoft.Json;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 
@@ -6,35 +9,40 @@ namespace Botec.Application;
 
 public class MessageProcessing
 {
-    private static readonly Dictionary<string, Func<ITelegramBotClient, Update, string, CancellationToken, Task>> Commands;
+    private static readonly Dictionary<IEnumerable<string>, Func<ITelegramBotClient, Update, string, CancellationToken, Task>> CommandsDictionary;
 
     static MessageProcessing()
     {
-        Commands = GetCommandsDictionary();
+        CommandsDictionary = GetCommandsDictionary();
     }
 
     public static async Task ProcessMessage(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken)
     {
+        JsonSerializer.Create().Serialize(Console.Out, update);
         var message = update.Message?.Text;
 
         if (message is null)
             return;
 
-        foreach (var command in Commands)
+        await UserProcessingService.RegisterUserIfNotExistAsync(update, cancellationToken);
+
+        foreach (var command in CommandsDictionary)
         {
-            if (message.StartsWith(command.Key))
+            var sessionCommand = command.Key.FirstOrDefault(x => message.ToLower().StartsWith(x));
+            if (sessionCommand is not null)
             {
-                await command.Value(botClient, update, command.Key, cancellationToken);
+                await command.Value(botClient, update, sessionCommand, cancellationToken);
                 return;
             }
         }
     }
 
-    private static Dictionary<string, Func<ITelegramBotClient, Update, string, CancellationToken, Task>> GetCommandsDictionary()
+    private static Dictionary<IEnumerable<string>, Func<ITelegramBotClient, Update, string, CancellationToken, Task>> GetCommandsDictionary()
     {
-        var commands = new Dictionary<string, Func<ITelegramBotClient, Update, string, CancellationToken, Task>>
+        var commands = new Dictionary<IEnumerable<string>, Func<ITelegramBotClient, Update, string, CancellationToken, Task>>
         {
-            { "бот повтори", RepeatLogic.RepeatAsync }
+            { Commands.RepeatCommands, RepeatLogic.RepeatAsync },
+            { Commands.UpdateCockCommands, CockLogic.UpdateCockAsync }
         };
 
         return commands;

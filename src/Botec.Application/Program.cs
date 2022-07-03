@@ -9,6 +9,7 @@ using Telegram.Bot.Types.Enums;
 var configuration = new ConfigurationBuilder()
     .AddUserSecrets<Program>()
     .Build();
+AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
 var botClient = new TelegramBotClient(configuration["Token"]);
 
@@ -44,11 +45,6 @@ async Task HandleUpdateAsync(ITelegramBotClient botClient, Update update, Cancel
     Console.WriteLine($"Received a '{messageText}' message in chat {chatId}.");
     
     await MessageProcessing.ProcessMessage(botClient, update, cancellationToken);
-
-    Message sentMessage = await botClient.SendTextMessageAsync(
-        chatId: chatId,
-        text: "You said:\n" + messageText,
-        cancellationToken: cancellationToken);
 }
 
 Task HandlePollingErrorAsync(ITelegramBotClient botClient, Exception exception, CancellationToken cancellationToken)

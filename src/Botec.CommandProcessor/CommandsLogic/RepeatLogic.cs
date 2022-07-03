@@ -1,7 +1,7 @@
 ﻿using Telegram.Bot;
 using Telegram.Bot.Types;
 
-namespace Botec.CommandProcessor;
+namespace Botec.CommandProcessor.CommandsLogic;
 
 public static class RepeatLogic
 {
