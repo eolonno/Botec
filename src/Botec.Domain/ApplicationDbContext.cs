@@ -38,9 +38,14 @@ public class ApplicationDbContext : DbContext
         modelBuilder.Entity<User>()
             .HasMany(x => x.Accounts)
             .WithOne(x => x.User);
+        modelBuilder.Entity<User>()
+            .HasMany(x => x.Chats)
+            .WithMany(x => x.Users);
 
         modelBuilder.Entity<Chat>()
             .HasOne(x => x.FaggotOfTheDay);
+        modelBuilder.Entity<Chat>()
+            .HasMany(x => x.Users);
 
         modelBuilder.Entity<NicknameOfTheDay>()
             .HasOne(x => x.Nickname);

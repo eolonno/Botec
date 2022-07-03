@@ -2,6 +2,7 @@
 using Botec.Domain.Enums;
 using Botec.Domain.Repositories;
 using Telegram.Bot.Types;
+using Chat = Botec.Domain.Entities.Chat;
 using User = Botec.Domain.Entities.User;
 
 namespace Botec.CommandProcessor.Services;
@@ -54,6 +55,14 @@ public class UserProcessingService
                         FirstName = from.FirstName,
                         LastName = from.LastName,
                         Username = from.Username
+                    }
+                },
+                Chats = new List<Chat>
+                {
+                    new()
+                    {
+                        Id = update.Message.Chat.Id,
+                        MessengerType = MessengerType.Telegram
                     }
                 }
             };

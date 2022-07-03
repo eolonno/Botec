@@ -37,13 +37,9 @@ async Task HandleUpdateAsync(ITelegramBotClient botClient, Update update, Cancel
 {
     if (update.Message is not {} message)
         return;
-    if (message.Text is not {} messageText)
+    if (message.Text is not {})
         return;
-    
-    var chatId = message.Chat.Id;
 
-    Console.WriteLine($"Received a '{messageText}' message in chat {chatId}.");
-    
     await MessageProcessing.ProcessMessage(botClient, update, cancellationToken);
 }
 
