@@ -1,4 +1,5 @@
-﻿using Botec.Domain.Enums;
+﻿using Botec.Domain.Entities;
+using Botec.Domain.Enums;
 using Microsoft.EntityFrameworkCore;
 
 namespace Botec.Domain.Repositories;
@@ -12,10 +13,10 @@ public class CockRepository
         _context = new ApplicationDbContext();
     }
 
-    public async Task<DateTime> GetLastCommitDateAsync(long accountId, CancellationToken cancellationToken)
+    public async Task<DateTime?> GetLastCommitDateAsync(long accountId, CancellationToken cancellationToken)
     {
         return await _context.Account
-            .Where(x => x.AccountId == accountId)
+            .Where(x => x.Id == accountId)
             .Include(x => x.User)
             .Include(x => x.User.Cock)
             .Select(x => x.User)
@@ -25,17 +26,21 @@ public class CockRepository
 
     public async Task<bool> GetIronCockStatusAsync(long accountId, CancellationToken cancellationToken)
     {
-        var userId = await _context.Account
+        return await _context.Account
             .Include(x => x.User)
             .Include(x => x.User.Cock)
-            .Where(x => x.AccountId == accountId)
-            .Select(x => x.User.Id)
+            .Where(x => x.Id == accountId)
+            .Select(x => x.User.HasIronCock)
             .FirstOrDefaultAsync(cancellationToken);
+    }
 
-        return await _context.UserSettings
+    public async Task<int> GetCockLength(long accountId, CancellationToken cancellationToken)
+    {
+        return await _context.Account
             .Include(x => x.User)
-            .Where(x => x.User.Id == userId)
-            .Select(x => x.HasIronCock)
+            .Include(x => x.User.Cock)
+            .Where(x => x.Id == accountId)
+            .Select(x => x.User.Cock.Length)
             .FirstOrDefaultAsync(cancellationToken);
     }
 
@@ -44,22 +49,43 @@ public class CockRepository
         var cock = await _context.Account
             .Include(x => x.User)
             .Include(x => x.User.Cock)
-            .Where(x => x.AccountId == accountId)
+            .Where(x => x.Id == accountId)
             .Select(x => x.User.Cock)
             .FirstOrDefaultAsync(cancellationToken);
 
-        _context.Attach(cock);
         cock.Length += lengthToChange;
+        cock.LastCommitDate = DateTime.Today;
 
         await _context.SaveChangesAsync(cancellationToken);
     }
 
-    public async Task<int> GetCockLength(long accountId, CancellationToken cancellationToken)
+    public async Task DoubleCockAsync(long accountId, CancellationToken cancellationToken)
     {
-        return await _context.Account
+        var cock = await _context.Account
             .Include(x => x.User)
             .Include(x => x.User.Cock)
-            .Select(x => x.User.Cock.Length)
+            .Where(x => x.Id == accountId)
+            .Select(x => x.User.Cock)
             .FirstOrDefaultAsync(cancellationToken);
+
+        cock.Length *= 2;
+        cock.LastCommitDate = DateTime.Today;
+
+        await _context.SaveChangesAsync(cancellationToken);
+    }
+
+    public async Task CircumciseCockAsync(long accountId, CancellationToken cancellationToken)
+    {
+        var cock = await _context.Account
+            .Include(x => x.User)
+            .Include(x => x.User.Cock)
+            .Where(x => x.Id == accountId)
+            .Select(x => x.User.Cock)
+            .FirstOrDefaultAsync(cancellationToken);
+
+        cock.Length = 0;
+        cock.LastCommitDate = DateTime.Today;
+
+        await _context.SaveChangesAsync(cancellationToken);
     }
 }

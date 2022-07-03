@@ -14,7 +14,7 @@ public class AccountRepository
 
     public async Task<Account?> GetAccountByAccountId(long accountId, CancellationToken cancellationToken)
     {
-        var account = await _context.Account.FirstOrDefaultAsync(x => x.AccountId == accountId, cancellationToken);
+        var account = await _context.Account.FirstOrDefaultAsync(x => x.Id == accountId, cancellationToken);
         return account;
     }
 

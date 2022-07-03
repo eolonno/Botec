@@ -1,4 +1,4 @@
-﻿using Botec.Application;
+using Botec.Application;
 using Microsoft.Extensions.Configuration;
 using Telegram.Bot;
 using Telegram.Bot.Exceptions;
@@ -9,6 +9,7 @@ using Telegram.Bot.Types.Enums;
 var configuration = new ConfigurationBuilder()
     .AddUserSecrets<Program>()
     .Build();
+AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
 var botClient = new TelegramBotClient(configuration["Token"]);
 
