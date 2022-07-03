@@ -22,34 +22,47 @@ public class CockLogic
         var from = update.Message!.From!;
         var lastCommitDate = await _cockRepository.GetLastCommitDateAsync(from.Id, cancellationToken);
 
-        if (lastCommitDate.Date != DateTime.Today)
+        //if (lastCommitDate.Date != DateTime.Today)
+        //{
+        var hasIronCock = await _cockRepository.GetIronCockStatusAsync(from.Id, cancellationToken);
+
+        var randomNumber = RandomWithProbability.GetRandomNumber();
+        randomNumber = (int)CockConstants.Circumcision;
+
+        while (hasIronCock && randomNumber == (int)CockConstants.Circumcision)
         {
-            var hasIronCock = await _cockRepository.GetIronCockStatusAsync(from.Id, cancellationToken);
-
-            var randomNumber = RandomWithProbability.GetRandomNumber();
-            
-            while (hasIronCock && randomNumber == (int)CockConstants.Circumcision)
-            {
-                randomNumber = RandomWithProbability.GetRandomNumber();
-            }
-
-            await _cockRepository.UpdateCockAsync(from.Id, randomNumber, cancellationToken);
-            var resultLength = await _cockRepository.GetCockLength(from.Id, cancellationToken);
-
-            var answer = CockAnswers.GetCockUpdateAnswer(from.FirstName, from.LastName, randomNumber);
-            var resultLengthAnswer = CockAnswers.GetResultCockLength(resultLength);
-
-            await botClient.SendTextMessageAsync(
-                chatId: update.Message.Chat.Id,
-                text: answer + resultLengthAnswer,
-                cancellationToken: cancellationToken);
-
-            return;
+            randomNumber = RandomWithProbability.GetRandomNumber();
         }
+
+        switch (randomNumber)
+        {
+            case (int)CockConstants.Circumcision:
+                await _cockRepository.CircumciseCockAsync(from.Id, cancellationToken);
+                break;
+            case (int)CockConstants.Double:
+                await _cockRepository.DoubleCockAsync(from.Id, cancellationToken);
+                break;
+            default:
+                await _cockRepository.UpdateCockAsync(from.Id, randomNumber, cancellationToken);
+                break;
+        }
+
+        var resultLength = await _cockRepository.GetCockLength(from.Id, cancellationToken);
+
+        var answer = CockAnswers.GetCockUpdateAnswer(from.FirstName, from.LastName, randomNumber);
+        var resultLengthAnswer = CockAnswers.GetResultCockLength(resultLength);
 
         await botClient.SendTextMessageAsync(
             chatId: update.Message.Chat.Id,
-            text: CockAnswers.GetRejection(from.FirstName),
+            text: answer + resultLengthAnswer,
             cancellationToken: cancellationToken);
+
+        //    return;
+        //}
+
+        //await botClient.SendTextMessageAsync(
+        //    chatId: update.Message.Chat.Id,
+        //    text: CockAnswers.GetRejection(from.FirstName),
+        //    cancellationToken: cancellationToken);
     }
 }

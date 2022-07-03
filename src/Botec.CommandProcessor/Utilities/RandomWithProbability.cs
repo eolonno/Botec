@@ -40,11 +40,11 @@ public static class RandomWithProbability
         return new[,]
         {
             { 0, 40, 0, 10 },
-            { 41, 71, 10, 15 },
-            { 72, 78, 15, 20 },
-            { 79, 98, -25, 0},
-            { 99, 99, (int)CockConstants.Double, (int)CockConstants.Double},
-            { 100, 100, (int)CockConstants.Circumcision, (int)CockConstants.Circumcision}
+            { 41, 71, 11, 15 },
+            { 72, 78, 16, 20 },
+            { 79, 93, -25, 0},
+            { 94, 97, (int)CockConstants.Double, (int)CockConstants.Double},
+            { 98, 100, (int)CockConstants.Circumcision, (int)CockConstants.Circumcision}
         };
     }
 }

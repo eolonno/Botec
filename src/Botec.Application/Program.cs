@@ -1,4 +1,4 @@
-using Botec.Application;
+﻿using Botec.Application;
 using Microsoft.Extensions.Configuration;
 using Telegram.Bot;
 using Telegram.Bot.Exceptions;

@@ -1,6 +1,7 @@
 ﻿using Botec.CommandProcessor;
 using Botec.CommandProcessor.CommandsLogic;
 using Botec.CommandProcessor.Services;
+using Newtonsoft.Json;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 
@@ -17,6 +18,7 @@ public class MessageProcessing
 
     public static async Task ProcessMessage(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken)
     {
+        JsonSerializer.Create().Serialize(Console.Out, update);
         var message = update.Message?.Text;
 
         if (message is null)

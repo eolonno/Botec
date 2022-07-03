@@ -8,8 +8,8 @@ public class CockAnswers
     {
         >= 0 and < (int)CockConstants.Double => $"Кок {firstName} {lastName ?? string.Empty} вырос на {size} см!",
         < 0 and > (int)CockConstants.Circumcision => $"Кок {firstName} {lastName ?? string.Empty} объевреился на {size} см! Саси))0",
-        (int)CockConstants.Circumcision => $"Кок {firstName} {lastName ?? string.Empty} вырос в 2 раза!",
-        (int)CockConstants.Double => $"Кок {firstName} {lastName ?? string.Empty} отвалился! Лох))0)"
+        (int)CockConstants.Double => $"Кок {firstName} {lastName ?? string.Empty} вырос в 2 раза!",
+        (int)CockConstants.Circumcision => $"Кок {firstName} {lastName ?? string.Empty} отвалился! Лох))0)"
     };
 
     public static string GetResultCockLength(int length)

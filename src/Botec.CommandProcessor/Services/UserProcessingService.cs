@@ -28,7 +28,7 @@ public class UserProcessingService
 
         var account = await _accountRepository.GetAccountByAccountId(from.Id, cancellationToken);
         var user = account is null ? null : await _userRepository.GetUserByAccountAsync(account, cancellationToken);
-        
+
 
         if (user is null)
         {
@@ -37,9 +37,8 @@ public class UserProcessingService
             user = new User
             {
                 Id = userId,
-                Name = from.FirstName,
-                LastName = from.FirstName,
-                UserName = from.Username,
+                UserStatus = UserStatus.Standard,
+                HasIronCock = false,
                 Cock = new Cock
                 {
                     Id = Guid.NewGuid(),
@@ -50,14 +49,14 @@ public class UserProcessingService
                 {
                     new()
                     {
-                        Id = Guid.NewGuid(),
-                        AccountId = from.Id,
-                        MessengerType = MessengerType.Telegram
+                        Id = from.Id,
+                        MessengerType = MessengerType.Telegram,
+                        FirstName = from.FirstName,
+                        LastName = from.LastName,
+                        Username = from.Username
                     }
                 }
             };
-
-            user.Accounts.First().User = user;
 
             await _userRepository.AddUserAsync(user, cancellationToken);
         }
