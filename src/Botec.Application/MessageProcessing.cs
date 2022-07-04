@@ -1,7 +1,7 @@
-﻿using Botec.CommandProcessor;
+﻿using Botec.Application.Utilities;
+using Botec.CommandProcessor;
 using Botec.CommandProcessor.CommandsLogic;
 using Botec.CommandProcessor.Services;
-using Newtonsoft.Json;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 
@@ -10,15 +10,18 @@ namespace Botec.Application;
 public class MessageProcessing
 {
     private static readonly Dictionary<IEnumerable<string>, Func<ITelegramBotClient, Update, string, CancellationToken, Task>> CommandsDictionary;
+    private static readonly MessageLogger _messageLogger;
 
     static MessageProcessing()
     {
         CommandsDictionary = GetCommandsDictionary();
+        _messageLogger = new MessageLogger();
     }
 
     public static async Task ProcessMessage(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken)
     {
-        JsonSerializer.Create().Serialize(Console.Out, update);
+        await _messageLogger.LogUpdate(update, cancellationToken);
+
         var message = update.Message?.Text;
 
         if (message is null)

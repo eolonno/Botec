@@ -22,4 +22,8 @@
     <ProjectReference Include="..\Botec.Domain\Botec.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Utilities\" />
+  </ItemGroup>
+
 </Project>
