@@ -9,6 +9,5 @@ public class User
     public bool HasIronCock { get; set; }
     public Cock Cock { get; set; }
     public NicknameOfTheDay NicknameOfTheDay { get; set; }
-    public IEnumerable<Account> Accounts { get; set; }
-    public IEnumerable<Chat> Chats { get; set; }
+    public List<Account> Accounts { get; set; }
 }
