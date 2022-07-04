@@ -54,6 +54,7 @@ public class MessageProcessing
             { Commands.CocksTopCommands, CockLogic.PrintCocksTop },
             { Commands.AbsoluteRatingCommands, CockLogic.PrintAbsoluteCockPosition },
             { Commands.FaggotOfTheDayCommands, FaggotOfTheDayLogic.PrintFaggotOfTheDay },
+            { Commands.BanekJokeCommands, JokeLogic.PrintBaneksJoke },
         };
 
         return commands;

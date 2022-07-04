@@ -31,4 +31,10 @@ public class Commands
         "бот пидор дня",
         "bot faggot of the day"
     };
+
+    public static IEnumerable<string> BanekJokeCommands = new List<string>
+    {
+        "бот анек",
+        "bot anek"
+    };
 }
