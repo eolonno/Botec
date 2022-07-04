@@ -50,4 +50,15 @@ public class AccountRepository
 
         return chat!.Accounts;
     }
+
+    public async Task<Account?> GetFaggotOfTheDay(long chatId, CancellationToken cancellationToken)
+    {
+        return await _context.Chat
+            .AsNoTracking()
+            .Include(x => x.FaggotOfTheDay)
+            .Where(x => x.Id == chatId)
+            .Where(x => x.LastFaggotChangeDate == DateTime.Today)
+            .Select(x => x.FaggotOfTheDay)
+            .FirstOrDefaultAsync(cancellationToken);
+    }
 }

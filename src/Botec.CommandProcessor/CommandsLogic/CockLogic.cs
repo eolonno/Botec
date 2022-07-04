@@ -13,16 +13,8 @@ namespace Botec.CommandProcessor.CommandsLogic;
 // TODO: uncomment code
 public class CockLogic
 {
-    private static CockRepository _cockRepository;
-    private static UserRepository _userRepository;
-    private static AccountRepository _accountRepository;
-
-    static CockLogic()
-    {
-        _cockRepository = new CockRepository();
-        _userRepository = new UserRepository();
-        _accountRepository = new AccountRepository();
-    }
+    private static CockRepository _cockRepository = new();
+    private static AccountRepository _accountRepository = new();
 
     public static async Task UpdateCockAsync(
         ITelegramBotClient botClient, Update update, string command, CancellationToken cancellationToken)
