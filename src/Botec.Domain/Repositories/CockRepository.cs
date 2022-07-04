@@ -16,6 +16,7 @@ public class CockRepository
     public async Task<DateTime?> GetLastCommitDateAsync(long accountId, CancellationToken cancellationToken)
     {
         return await _context.Account
+            .AsNoTracking()
             .Where(x => x.Id == accountId)
             .Include(x => x.User)
             .Include(x => x.User.Cock)
@@ -27,6 +28,7 @@ public class CockRepository
     public async Task<bool> GetIronCockStatusAsync(long accountId, CancellationToken cancellationToken)
     {
         return await _context.Account
+            .AsNoTracking()
             .Include(x => x.User)
             .Include(x => x.User.Cock)
             .Where(x => x.Id == accountId)
@@ -37,6 +39,7 @@ public class CockRepository
     public async Task<int> GetCockLength(long accountId, CancellationToken cancellationToken)
     {
         return await _context.Account
+            .AsNoTracking()
             .Include(x => x.User)
             .Include(x => x.User.Cock)
             .Where(x => x.Id == accountId)

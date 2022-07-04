@@ -42,7 +42,9 @@ public class MessageProcessing
         var commands = new Dictionary<IEnumerable<string>, Func<ITelegramBotClient, Update, string, CancellationToken, Task>>
         {
             { Commands.RepeatCommands, RepeatLogic.RepeatAsync },
-            { Commands.UpdateCockCommands, CockLogic.UpdateCockAsync }
+            { Commands.UpdateCockCommands, CockLogic.UpdateCockAsync },
+            { Commands.CocksTopCommands, CockLogic.PrintCocksTop },
+            { Commands.AbsoluteRatingCommands, CockLogic.PrintAbsoluteCockPosition },
         };
 
         return commands;

@@ -10,4 +10,5 @@ public class User
     public Cock Cock { get; set; }
     public NicknameOfTheDay NicknameOfTheDay { get; set; }
     public IEnumerable<Account> Accounts { get; set; }
+    public IEnumerable<Chat> Chats { get; set; }
 }
