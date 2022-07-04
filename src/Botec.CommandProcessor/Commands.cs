@@ -25,4 +25,10 @@ public class Commands
         "бот абсолют",
         "bot absolute"
     };
+
+    public static IEnumerable<string> FaggotOfTheDayCommands = new List<string>
+    {
+        "бот пидор дня",
+        "bot faggot of the day"
+    };
 }

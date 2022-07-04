@@ -36,4 +36,13 @@ public class ChatRepository
             .Where(x => x.Id == chatId)
             .FirstOrDefaultAsync(cancellationToken);
     }
+
+    public async Task AddFaggotOfTheDay(long chatId, Account faggotOfTheDay, CancellationToken cancellationToken)
+    {
+        var chat = await _context.Chat.Where(x => x.Id == chatId).FirstOrDefaultAsync(cancellationToken);
+
+        chat.FaggotOfTheDayId = faggotOfTheDay.Id;
+        chat.LastFaggotChangeDate = DateTime.Today;
+        await _context.SaveChangesAsync(cancellationToken);
+    }
 }

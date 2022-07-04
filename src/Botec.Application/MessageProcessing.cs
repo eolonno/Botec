@@ -2,6 +2,7 @@
 using Botec.CommandProcessor;
 using Botec.CommandProcessor.CommandsLogic;
 using Botec.CommandProcessor.Services;
+using Newtonsoft.Json;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 
@@ -27,6 +28,8 @@ public class MessageProcessing
         if (message is null)
             return;
 
+        JsonSerializer.Create().Serialize(Console.Out, update);
+
         await ChatProcessingService.RegisterChatIfNotRegistered(update, cancellationToken);
         await UserProcessingService.RegisterUserIfNotExistAsync(update, cancellationToken);
         await UserProcessingService.RegisterUserInTheChatIfNotRegisteredAsync(update, cancellationToken);
@@ -50,6 +53,7 @@ public class MessageProcessing
             { Commands.UpdateCockCommands, CockLogic.UpdateCockAsync },
             { Commands.CocksTopCommands, CockLogic.PrintCocksTop },
             { Commands.AbsoluteRatingCommands, CockLogic.PrintAbsoluteCockPosition },
+            { Commands.FaggotOfTheDayCommands, FaggotOfTheDayLogic.PrintFaggotOfTheDay },
         };
 
         return commands;
