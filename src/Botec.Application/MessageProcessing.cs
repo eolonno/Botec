@@ -44,6 +44,7 @@ public class MessageProcessing
             { Commands.RepeatCommands, RepeatLogic.RepeatAsync },
             { Commands.UpdateCockCommands, CockLogic.UpdateCockAsync },
             { Commands.CocksTopCommands, CockLogic.PrintCocksTop },
+            { Commands.AbsoluteRatingCommands, CockLogic.PrintAbsoluteCockPosition },
         };
 
         return commands;

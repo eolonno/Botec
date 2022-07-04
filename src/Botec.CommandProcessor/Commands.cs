@@ -19,4 +19,10 @@ public class Commands
         "бот топ коков",
         "bot cocks top"
     };
+
+    public static IEnumerable<string> AbsoluteRatingCommands = new List<string>
+    {
+        "бот абсолют",
+        "bot absolute"
+    };
 }

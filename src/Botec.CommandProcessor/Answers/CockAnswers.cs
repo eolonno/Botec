@@ -23,4 +23,7 @@ public class CockAnswers
 
     public static string GetCocksTopString(int number, bool hasIronCock, string firstName, string? lastName, int length)
         => $"{number}. {firstName} {lastName ?? string.Empty} ({length} см)";
+
+    public static string GetCockAbsoluteString(int number)
+        => $"Твое место в абсолютном рейтинге: {number}";
 }

@@ -27,6 +27,18 @@ public class UserRepository
             .FirstOrDefaultAsync(cancellationToken);
     }
 
+    public async Task<IEnumerable<User>> GetAllUsers(CancellationToken cancellationToken)
+    {
+        return await _context.User
+            .AsNoTracking()
+            .Include(x => x.Cock)
+            .Include(x => x.Accounts)
+            .Include(x => x.Chats)
+            .Include(x => x.NicknameOfTheDay)
+            .ThenInclude(x => x.Nickname)
+            .ToListAsync(cancellationToken);
+    }
+
     public async Task<IEnumerable<User>> GetAllUsersFromChat(long chatId, CancellationToken cancellationToken)
     {
         var chat = await _context.Chat

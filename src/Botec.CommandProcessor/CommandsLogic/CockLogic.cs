@@ -10,21 +10,24 @@ using Telegram.Bot.Types.Enums;
 
 namespace Botec.CommandProcessor.CommandsLogic;
 
+// TODO: uncomment code
 public class CockLogic
 {
     private static CockRepository _cockRepository;
     private static UserRepository _userRepository;
+    private static AccountRepository _accountRepository;
 
     static CockLogic()
     {
         _cockRepository = new CockRepository();
         _userRepository = new UserRepository();
+        _accountRepository = new AccountRepository();
     }
 
     public static async Task UpdateCockAsync(
         ITelegramBotClient botClient, Update update, string command, CancellationToken cancellationToken)
     {
-        var from = update.Message!.From;
+        var from = update.Message!.From!;
         var lastCommitDate = await _cockRepository.GetLastCommitDateAsync(from.Id, cancellationToken);
 
         //if (lastCommitDate.Date != DateTime.Today)
@@ -91,7 +94,7 @@ public class CockLogic
         for (var i = 0; i < users.Count; i++)
         {
             var user = users[i];
-            var userAccount = user.Accounts.Where(x => x.MessengerType == MessengerType.Telegram).FirstOrDefault();
+            var userAccount = user.Accounts?.Where(x => x.MessengerType == MessengerType.Telegram).FirstOrDefault();
 
             if (userAccount is null)
             {
@@ -109,6 +112,25 @@ public class CockLogic
         await botClient.SendTextMessageAsync(
             chatId: update.Message.Chat.Id,
             text: stringBuilder.ToString(),
+            cancellationToken: cancellationToken);
+    }
+
+    public static async Task PrintAbsoluteCockPosition(
+        ITelegramBotClient botClient, Update update, string command, CancellationToken cancellationToken)
+    {
+        var from = update.Message!.From!;
+
+        var users = (await _userRepository.GetAllUsers(cancellationToken))
+            .OrderByDescending(x => x.Cock.Length);
+
+        var absoluteRatingNumber = (await _accountRepository.GetAllAccountsAsync(cancellationToken))
+            .OrderByDescending(x => x.User.Cock.Length)
+            .ToList()
+            .FindIndex(x => x.Id == from.Id) + 1;
+
+        await botClient.SendTextMessageAsync(
+            chatId: update.Message.Chat.Id,
+            text: CockAnswers.GetCockAbsoluteString(absoluteRatingNumber),
             cancellationToken: cancellationToken);
     }
 }

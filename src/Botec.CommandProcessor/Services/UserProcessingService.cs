@@ -27,7 +27,7 @@ public class UserProcessingService
             return;
         }
 
-        var account = await _accountRepository.GetAccountByAccountId(from.Id, cancellationToken);
+        var account = await _accountRepository.GetAccountByAccountIdAsync(from.Id, cancellationToken);
         var user = account is null ? null : await _userRepository.GetUserByAccountAsync(account, cancellationToken);
 
 
