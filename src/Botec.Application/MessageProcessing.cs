@@ -27,7 +27,9 @@ public class MessageProcessing
         if (message is null)
             return;
 
+        await ChatProcessingService.RegisterChatIfNotRegistered(update, cancellationToken);
         await UserProcessingService.RegisterUserIfNotExistAsync(update, cancellationToken);
+        await UserProcessingService.RegisterUserInTheChatIfNotRegisteredAsync(update, cancellationToken);
 
         foreach (var command in CommandsDictionary)
         {

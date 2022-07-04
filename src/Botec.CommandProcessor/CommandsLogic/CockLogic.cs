@@ -87,25 +87,23 @@ public class CockLogic
         //    return;
         //}
 
-        var users = (await _userRepository.GetAllUsersFromChat(chat.Id, cancellationToken)).ToList();
+        var accounts = (await _accountRepository.GetAllAccountsFromChatAsync(chat.Id, cancellationToken))
+            .OrderByDescending(x => x.User.Cock.Length)
+            .ToList();
         
         var stringBuilder = new StringBuilder();
+        stringBuilder.AppendLine(CockAnswers.GetCocksTopStartingString());
 
-        for (var i = 0; i < users.Count; i++)
+        for (var i = 0; i < accounts.Count; i++)
         {
-            var user = users[i];
-            var userAccount = user.Accounts?.Where(x => x.MessengerType == MessengerType.Telegram).FirstOrDefault();
+            var account = accounts[i];
+            var user = accounts[i].User;
 
-            if (userAccount is null)
-            {
-                continue;
-            }
-
-            stringBuilder.Append(CockAnswers.GetCocksTopString(
+            stringBuilder.AppendLine(CockAnswers.GetCocksTopString(
                 i + 1,
                 user.HasIronCock,
-                userAccount.FirstName,
-                userAccount.LastName,
+                account.FirstName,
+                account.LastName,
                 user.Cock.Length));
         }
         
@@ -119,9 +117,6 @@ public class CockLogic
         ITelegramBotClient botClient, Update update, string command, CancellationToken cancellationToken)
     {
         var from = update.Message!.From!;
-
-        var users = (await _userRepository.GetAllUsers(cancellationToken))
-            .OrderByDescending(x => x.Cock.Length);
 
         var absoluteRatingNumber = (await _accountRepository.GetAllAccountsAsync(cancellationToken))
             .OrderByDescending(x => x.User.Cock.Length)

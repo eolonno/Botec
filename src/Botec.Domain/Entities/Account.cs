@@ -10,4 +10,5 @@ public class Account
     public string? LastName { get; set; }
     public string? Username { get; set; }
     public User User { get; set; }
+    public List<Chat> Chats { get; set; }
 }

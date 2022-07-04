@@ -21,6 +21,9 @@ public class CockAnswers
     public static string GetCocksTopPrivateChatRejection()
         => "Ахаха. Ну ясен хрен, ты тут топ 1. Проверим в какой-нибудь беседе?))0";
 
+    public static string GetCocksTopStartingString()
+        => "Топ коков:";
+
     public static string GetCocksTopString(int number, bool hasIronCock, string firstName, string? lastName, int length)
         => $"{number}. {firstName} {lastName ?? string.Empty} ({length} см)";
 

@@ -33,23 +33,9 @@ public class UserRepository
             .AsNoTracking()
             .Include(x => x.Cock)
             .Include(x => x.Accounts)
-            .Include(x => x.Chats)
+            .ThenInclude(x => x.Chats)
             .Include(x => x.NicknameOfTheDay)
             .ThenInclude(x => x.Nickname)
             .ToListAsync(cancellationToken);
-    }
-
-    public async Task<IEnumerable<User>> GetAllUsersFromChat(long chatId, CancellationToken cancellationToken)
-    {
-        var chat = await _context.Chat
-            .AsNoTracking()
-            .Where(x => x.Id == chatId)
-            .Include(x => x.Users)
-            .ThenInclude(x => x.Cock)
-            .Include(x => x.Users)
-            .ThenInclude(x => x.Accounts)
-            .FirstOrDefaultAsync(cancellationToken);
-
-        return chat!.Users;
     }
 }
