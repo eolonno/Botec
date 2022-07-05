@@ -23,6 +23,7 @@ public class MessageLogger
             FirstName = from?.FirstName,
             LastName = from?.LastName,
             ChatId = message?.Chat.Id,
+            ChatTitle = message?.Chat.Title,
             Text = message?.Text,
             MessengerType = MessengerType.Telegram,
             Date = message?.Date ?? DateTime.Now,

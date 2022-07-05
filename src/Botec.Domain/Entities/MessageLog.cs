@@ -10,6 +10,7 @@ public class MessageLog
     public string? FirstName { get; set; }
     public string? LastName { get; set; }
     public long? ChatId { get; set; }
+    public string? ChatTitle { get; set; }
     public string? Text { get; set; }
     public string JsonUpdate { get; set; }
     public MessengerType MessengerType { get; set; }
