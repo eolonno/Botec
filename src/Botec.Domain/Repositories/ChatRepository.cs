@@ -6,7 +6,7 @@ namespace Botec.Domain.Repositories;
 
 public class ChatRepository : IChatRepository
 {
-    private ApplicationDbContext _context;
+    private readonly ApplicationDbContext _context;
 
     public ChatRepository(ApplicationDbContext context)
     {

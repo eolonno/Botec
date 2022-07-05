@@ -2,7 +2,7 @@
 
 public class Commands
 {
-    public static IEnumerable<string> RepeatCommands = new List<string> 
+    public static readonly IEnumerable<string> RepeatCommands = new List<string> 
     { 
         "бот повтори",
         "бот, повтори",
@@ -11,35 +11,35 @@ public class Commands
         "bot repeat"
     };
 
-    public static IEnumerable<string> UpdateCockCommands = new List<string>
+    public static readonly IEnumerable<string> UpdateCockCommands = new List<string>
     {
         "бот кок",
         "бот, кок",
         "bot cock"
     };
 
-    public static IEnumerable<string> CocksTopCommands = new List<string>
+    public static readonly IEnumerable<string> CocksTopCommands = new List<string>
     {
         "бот топ коков",
         "бот, топ коков",
         "bot cocks top"
     };
 
-    public static IEnumerable<string> AbsoluteRatingCommands = new List<string>
+    public static readonly IEnumerable<string> AbsoluteRatingCommands = new List<string>
     {
         "бот абсолют",
         "бот, абсолют",
         "bot absolute"
     };
 
-    public static IEnumerable<string> FaggotOfTheDayCommands = new List<string>
+    public static readonly IEnumerable<string> FaggotOfTheDayCommands = new List<string>
     {
         "бот пидор дня",
         "бот, пидор дня",
         "bot faggot of the day"
     };
 
-    public static IEnumerable<string> BanekJokeCommands = new List<string>
+    public static readonly IEnumerable<string> BanekJokeCommands = new List<string>
     {
         "бот анек",
         "бот, анек",

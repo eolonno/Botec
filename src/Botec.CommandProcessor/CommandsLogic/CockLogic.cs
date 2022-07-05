@@ -12,8 +12,8 @@ namespace Botec.CommandProcessor.CommandsLogic;
 // TODO: uncomment code
 public class CockLogic
 {
-    private ICockRepository _cockRepository;
-    private IAccountRepository _accountRepository;
+    private readonly ICockRepository _cockRepository;
+    private readonly IAccountRepository _accountRepository;
 
     public CockLogic(IServiceProvider services)
     {
