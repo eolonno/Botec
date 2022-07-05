@@ -1,16 +1,15 @@
-﻿using Botec.Domain.Entities;
-using Botec.Domain.Enums;
+﻿using Botec.Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace Botec.Domain.Repositories;
 
-public class CockRepository
+public class CockRepository : ICockRepository
 {
     private readonly ApplicationDbContext _context;
 
-    public CockRepository()
+    public CockRepository(ApplicationDbContext context)
     {
-        _context = new ApplicationDbContext();
+        _context = context;
     }
 
     public async Task<DateTime?> GetLastCommitDateAsync(long accountId, CancellationToken cancellationToken)

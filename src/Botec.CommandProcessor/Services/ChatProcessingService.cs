@@ -1,16 +1,23 @@
-﻿using Botec.Domain.Entities;
+﻿using Botec.CommandProcessor.Interfaces;
+using Botec.Domain.Entities;
 using Botec.Domain.Enums;
-using Botec.Domain.Repositories;
+using Botec.Domain.Interfaces;
+using Microsoft.Extensions.DependencyInjection;
 using Telegram.Bot.Types;
 using Chat = Botec.Domain.Entities.Chat;
 
 namespace Botec.CommandProcessor.Services;
 
-public class ChatProcessingService
+public class ChatProcessingService : IChatProcessingService
 {
-    private static ChatRepository _chatRepository = new();
+    private IChatRepository _chatRepository;
 
-    public static async Task RegisterChatIfNotRegistered(Update update, CancellationToken cancellationToken)
+    public ChatProcessingService(IServiceProvider services)
+    {
+        _chatRepository = services.GetRequiredService<IChatRepository>();
+    }
+
+    public async Task RegisterChatIfNotRegistered(Update update, CancellationToken cancellationToken)
     {
         var workingChat = update.Message!.Chat;
 

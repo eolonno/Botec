@@ -1,15 +1,16 @@
 ﻿using Botec.Domain.Entities;
+using Botec.Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace Botec.Domain.Repositories;
 
-public class ChatRepository
+public class ChatRepository : IChatRepository
 {
     private ApplicationDbContext _context;
 
-    public ChatRepository()
+    public ChatRepository(ApplicationDbContext context)
     {
-        _context = new ApplicationDbContext();
+        _context = context;
     }
 
     public async Task AddChatAsync(Chat chat, CancellationToken cancellationToken)

@@ -15,15 +15,7 @@ public class ApplicationDbContext : DbContext
     public DbSet<Joke> Joke { get; set; }
     public DbSet<MessageLog> MessageLog { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-        var configuration = new ConfigurationBuilder()
-            .AddUserSecrets<ApplicationDbContext>()
-            .Build();
-
-        //optionsBuilder.UseSqlServer("Server=localhost;Database=Botec;Trusted_Connection=True;");
-        optionsBuilder.UseNpgsql(configuration["ConnectionString"]);
-    }
+    public ApplicationDbContext(DbContextOptions options) : base(options) {}
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

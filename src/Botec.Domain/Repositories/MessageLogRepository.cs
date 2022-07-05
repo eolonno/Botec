@@ -1,14 +1,15 @@
 ﻿using Botec.Domain.Entities;
+using Botec.Domain.Interfaces;
 
 namespace Botec.Domain.Repositories;
 
-public class MessageLogRepository
+public class MessageLogRepository : IMessageLogRepository
 {
     private ApplicationDbContext _context;
 
-    public MessageLogRepository()
+    public MessageLogRepository(ApplicationDbContext context)
     {
-        _context = new ApplicationDbContext();
+        _context = context;
     }
 
     public async Task LogUpdate(MessageLog messageLog, CancellationToken cancellationToken)

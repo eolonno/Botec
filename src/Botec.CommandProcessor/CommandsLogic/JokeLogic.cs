@@ -8,7 +8,7 @@ namespace Botec.CommandProcessor.CommandsLogic;
 
 public class JokeLogic
 {
-    public static async Task PrintBaneksJoke(
+    public async Task PrintBaneksJoke(
         ITelegramBotClient botClient, Update update, string command, CancellationToken cancellationToken)
     {
         using var client = new HttpClient();
@@ -19,7 +19,7 @@ public class JokeLogic
         var joke = htmlDocument.DocumentNode.QuerySelector("p").InnerText;
 
         await botClient.SendTextMessageAsync(
-            chatId: update.Message.Chat.Id,
+            chatId: update.Message!.Chat.Id,
             text: joke ?? JokeAnswers.GetJokeExceptionUserMessage(),
             cancellationToken: cancellationToken);
     }

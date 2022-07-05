@@ -1,22 +1,27 @@
-﻿using System.Text;
-using Botec.CommandProcessor.Answers;
+﻿using Botec.CommandProcessor.Answers;
 using Botec.CommandProcessor.Enums;
-using Botec.Domain.Repositories;
+using Botec.CommandProcessor.Utilities;
+using Botec.Domain.Interfaces;
+using Microsoft.Extensions.DependencyInjection;
+using System.Text;
 using Telegram.Bot;
 using Telegram.Bot.Types;
-using Botec.CommandProcessor.Utilities;
-using Botec.Domain.Enums;
-using Telegram.Bot.Types.Enums;
 
 namespace Botec.CommandProcessor.CommandsLogic;
 
 // TODO: uncomment code
 public class CockLogic
 {
-    private static CockRepository _cockRepository = new();
-    private static AccountRepository _accountRepository = new();
+    private ICockRepository _cockRepository;
+    private IAccountRepository _accountRepository;
 
-    public static async Task UpdateCockAsync(
+    public CockLogic(IServiceProvider services)
+    {
+        _cockRepository = services.GetRequiredService<ICockRepository>();
+        _accountRepository = services.GetRequiredService<IAccountRepository>();
+    }
+
+    public async Task UpdateCockAsync(
         ITelegramBotClient botClient, Update update, string command, CancellationToken cancellationToken)
     {
         var from = update.Message!.From!;
@@ -65,7 +70,7 @@ public class CockLogic
         //    cancellationToken: cancellationToken);
     }
 
-    public static async Task PrintCocksTop(
+    public async Task PrintCocksTop(
         ITelegramBotClient botClient, Update update, string command, CancellationToken cancellationToken)
     {
         var chat = update.Message!.Chat;
@@ -105,7 +110,7 @@ public class CockLogic
             cancellationToken: cancellationToken);
     }
 
-    public static async Task PrintAbsoluteCockPosition(
+    public async Task PrintAbsoluteCockPosition(
         ITelegramBotClient botClient, Update update, string command, CancellationToken cancellationToken)
     {
         var from = update.Message!.From!;

@@ -1,5 +1,14 @@
 ﻿using Botec.Application;
+using Botec.CommandProcessor.Interfaces;
+using Botec.CommandProcessor.Services;
+using Botec.Domain;
+using Botec.Domain.Interfaces;
+using Botec.Domain.Repositories;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Telegram.Bot;
 using Telegram.Bot.Exceptions;
 using Telegram.Bot.Polling;
@@ -9,9 +18,27 @@ using Telegram.Bot.Types.Enums;
 var configuration = new ConfigurationBuilder()
     .AddUserSecrets<Program>()
     .Build();
+
 AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
+using var host = Host.CreateDefaultBuilder()
+    .ConfigureServices(services =>
+        services
+            .AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(configuration["ConnectionString"]))
+            .AddSingleton<IChatProcessingService, ChatProcessingService>()
+            .AddSingleton<IUserProcessingService, UserProcessingService>()
+            .AddSingleton<IAccountRepository, AccountRepository>()
+            .AddSingleton<IChatRepository, ChatRepository>()
+            .AddSingleton<ICockRepository, CockRepository>()
+            .AddSingleton<IMessageLogRepository, MessageLogRepository>()
+            .AddSingleton<IUserRepository, UserRepository>())
+    .ConfigureLogging(logging => 
+        logging
+            .AddFilter("Microsoft.EntityFrameworkCore.Database.Command", LogLevel.Warning))
+    .Build();
+
 var botClient = new TelegramBotClient(configuration["Token"]);
+var messageProcessingService = new MessageProcessingService(host.Services);
 
 using var cancellationToken = new CancellationTokenSource();
 
@@ -40,7 +67,7 @@ async Task HandleUpdateAsync(ITelegramBotClient botClient, Update update, Cancel
     if (message.Text is not {})
         return;
 
-    await MessageProcessing.ProcessMessage(botClient, update, cancellationToken);
+    await messageProcessingService.ProcessMessage(botClient, update, cancellationToken);
 }
 
 Task HandlePollingErrorAsync(ITelegramBotClient botClient, Exception exception, CancellationToken cancellationToken)
