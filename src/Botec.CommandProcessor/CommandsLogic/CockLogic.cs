@@ -1,20 +1,20 @@
-﻿using Botec.CommandProcessor.Answers;
+﻿using System.Text;
+using Botec.CommandProcessor.Answers;
 using Botec.CommandProcessor.Enums;
 using Botec.Domain.Repositories;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 using Botec.CommandProcessor.Utilities;
+using Botec.Domain.Enums;
+using Telegram.Bot.Types.Enums;
 
 namespace Botec.CommandProcessor.CommandsLogic;
 
+// TODO: uncomment code
 public class CockLogic
 {
-    private static CockRepository _cockRepository;
-
-    static CockLogic()
-    {
-        _cockRepository = new CockRepository();
-    }
+    private static CockRepository _cockRepository = new();
+    private static AccountRepository _accountRepository = new();
 
     public static async Task UpdateCockAsync(
         ITelegramBotClient botClient, Update update, string command, CancellationToken cancellationToken)
@@ -27,7 +27,6 @@ public class CockLogic
         var hasIronCock = await _cockRepository.GetIronCockStatusAsync(from.Id, cancellationToken);
 
         var randomNumber = RandomWithProbability.GetRandomNumber();
-        randomNumber = (int)CockConstants.Circumcision;
 
         while (hasIronCock && randomNumber == (int)CockConstants.Circumcision)
         {
@@ -64,5 +63,61 @@ public class CockLogic
         //    chatId: update.Message.Chat.Id,
         //    text: CockAnswers.GetRejection(from.FirstName),
         //    cancellationToken: cancellationToken);
+    }
+
+    public static async Task PrintCocksTop(
+        ITelegramBotClient botClient, Update update, string command, CancellationToken cancellationToken)
+    {
+        var chat = update.Message!.Chat;
+
+        //if (chat.Type == ChatType.Private)
+        //{
+        //    await botClient.SendTextMessageAsync(
+        //        chatId: update.Message.Chat.Id,
+        //        text: CockAnswers.GetCocksTopPrivateChatRejection(),
+        //        cancellationToken: cancellationToken);
+        //    return;
+        //}
+
+        var accounts = (await _accountRepository.GetAllAccountsFromChatAsync(chat.Id, cancellationToken))
+            .OrderByDescending(x => x.User.Cock.Length)
+            .ToList();
+        
+        var stringBuilder = new StringBuilder();
+        stringBuilder.AppendLine(CockAnswers.GetCocksTopStartingString());
+
+        for (var i = 0; i < accounts.Count; i++)
+        {
+            var account = accounts[i];
+            var user = accounts[i].User;
+
+            stringBuilder.AppendLine(CockAnswers.GetCocksTopString(
+                i + 1,
+                user.HasIronCock,
+                account.FirstName,
+                account.LastName,
+                user.Cock.Length));
+        }
+        
+        await botClient.SendTextMessageAsync(
+            chatId: update.Message.Chat.Id,
+            text: stringBuilder.ToString(),
+            cancellationToken: cancellationToken);
+    }
+
+    public static async Task PrintAbsoluteCockPosition(
+        ITelegramBotClient botClient, Update update, string command, CancellationToken cancellationToken)
+    {
+        var from = update.Message!.From!;
+
+        var absoluteRatingNumber = (await _accountRepository.GetAllAccountsAsync(cancellationToken))
+            .OrderByDescending(x => x.User.Cock.Length)
+            .ToList()
+            .FindIndex(x => x.Id == from.Id) + 1;
+
+        await botClient.SendTextMessageAsync(
+            chatId: update.Message.Chat.Id,
+            text: CockAnswers.GetCockAbsoluteString(absoluteRatingNumber),
+            cancellationToken: cancellationToken);
     }
 }

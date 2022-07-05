@@ -13,4 +13,28 @@ public class Commands
         "бот кок",
         "bot cock"
     };
+
+    public static IEnumerable<string> CocksTopCommands = new List<string>
+    {
+        "бот топ коков",
+        "bot cocks top"
+    };
+
+    public static IEnumerable<string> AbsoluteRatingCommands = new List<string>
+    {
+        "бот абсолют",
+        "bot absolute"
+    };
+
+    public static IEnumerable<string> FaggotOfTheDayCommands = new List<string>
+    {
+        "бот пидор дня",
+        "bot faggot of the day"
+    };
+
+    public static IEnumerable<string> BanekJokeCommands = new List<string>
+    {
+        "бот анек",
+        "bot anek"
+    };
 }
