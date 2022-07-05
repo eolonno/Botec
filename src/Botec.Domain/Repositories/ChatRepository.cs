@@ -42,7 +42,7 @@ public class ChatRepository : IChatRepository
     {
         var chat = await _context.Chat.Where(x => x.Id == chatId).FirstOrDefaultAsync(cancellationToken);
 
-        chat.FaggotOfTheDayId = faggotOfTheDay.Id;
+        chat!.FaggotOfTheDayId = faggotOfTheDay.Id;
         chat.LastFaggotChangeDate = DateTime.Today;
         await _context.SaveChangesAsync(cancellationToken);
     }

@@ -55,7 +55,7 @@ public class CockRepository : ICockRepository
             .Select(x => x.User.Cock)
             .FirstOrDefaultAsync(cancellationToken);
 
-        cock.Length += lengthToChange;
+        cock!.Length += lengthToChange;
         cock.LastCommitDate = DateTime.Today;
 
         await _context.SaveChangesAsync(cancellationToken);
@@ -70,7 +70,7 @@ public class CockRepository : ICockRepository
             .Select(x => x.User.Cock)
             .FirstOrDefaultAsync(cancellationToken);
 
-        cock.Length *= 2;
+        cock!.Length *= 2;
         cock.LastCommitDate = DateTime.Today;
 
         await _context.SaveChangesAsync(cancellationToken);
@@ -85,7 +85,7 @@ public class CockRepository : ICockRepository
             .Select(x => x.User.Cock)
             .FirstOrDefaultAsync(cancellationToken);
 
-        cock.Length = 0;
+        cock!.Length = 0;
         cock.LastCommitDate = DateTime.Today;
 
         await _context.SaveChangesAsync(cancellationToken);
