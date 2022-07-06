@@ -22,7 +22,6 @@ public class MessageProcessingService
     private readonly FaggotOfTheDayLogic _faggotOfTheDayLogic;
     private readonly JokeLogic _jokeLogic;
 
-
     public MessageProcessingService(IServiceProvider services)
     {
         _messageLogger = new MessageLogger(services);

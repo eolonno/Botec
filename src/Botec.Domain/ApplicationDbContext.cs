@@ -1,6 +1,5 @@
 ﻿using Botec.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 
 namespace Botec.Domain;
 
@@ -15,7 +14,10 @@ public class ApplicationDbContext : DbContext
     public DbSet<Joke> Joke { get; set; }
     public DbSet<MessageLog> MessageLog { get; set; }
 
-    public ApplicationDbContext(DbContextOptions options) : base(options) {}
+    public ApplicationDbContext(DbContextOptions options) : base(options)
+    {
+        Database.EnsureCreated();
+    }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
