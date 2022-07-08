@@ -45,4 +45,12 @@ public class Commands
         "бот, анек",
         "bot anek"
     };
+
+    public static readonly IEnumerable<string> FuckCommands = new List<string>
+    {
+        "бот хочу ебаться",
+        "бот, хочу ебаться",
+        "bot i want to fuck",
+        "bot, i want to fuck"
+    };
 }
