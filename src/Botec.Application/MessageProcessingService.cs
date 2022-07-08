@@ -21,6 +21,7 @@ public class MessageProcessingService
     private readonly CockLogic _cockLogic;
     private readonly FaggotOfTheDayLogic _faggotOfTheDayLogic;
     private readonly JokeLogic _jokeLogic;
+    private readonly FuckLogic _fuckLogic;
 
     public MessageProcessingService(IServiceProvider services)
     {
@@ -29,6 +30,7 @@ public class MessageProcessingService
         _cockLogic = new CockLogic(services);
         _faggotOfTheDayLogic = new FaggotOfTheDayLogic(services);
         _jokeLogic = new JokeLogic();
+        _fuckLogic = new FuckLogic(services);
 
         _chatProcessingService = services.GetRequiredService<IChatProcessingService>();
         _userProcessingService = services.GetRequiredService<IUserProcessingService>();
@@ -72,6 +74,7 @@ public class MessageProcessingService
             { Commands.AbsoluteRatingCommands, _cockLogic.PrintAbsoluteCockPosition },
             { Commands.FaggotOfTheDayCommands, _faggotOfTheDayLogic.PrintFaggotOfTheDay },
             { Commands.BanekJokeCommands, _jokeLogic.PrintBaneksJoke },
+            { Commands.FuckCommands, _fuckLogic.FuckSomebody },
         };
 
         return commands;
