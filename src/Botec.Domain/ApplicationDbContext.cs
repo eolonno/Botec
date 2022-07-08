@@ -1,6 +1,5 @@
 ﻿using Botec.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 
 namespace Botec.Domain;
 
@@ -15,14 +14,9 @@ public class ApplicationDbContext : DbContext
     public DbSet<Joke> Joke { get; set; }
     public DbSet<MessageLog> MessageLog { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    public ApplicationDbContext(DbContextOptions options) : base(options)
     {
-        var configuration = new ConfigurationBuilder()
-            .AddUserSecrets<ApplicationDbContext>()
-            .Build();
-
-        //optionsBuilder.UseSqlServer("Server=localhost;Database=Botec;Trusted_Connection=True;");
-        optionsBuilder.UseNpgsql(configuration["ConnectionString"]);
+        Database.EnsureCreated();
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

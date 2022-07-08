@@ -1,6 +1,7 @@
 ﻿using Botec.Domain.Entities;
 using Botec.Domain.Enums;
-using Botec.Domain.Repositories;
+using Botec.Domain.Interfaces;
+using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using Telegram.Bot.Types;
 
@@ -8,7 +9,12 @@ namespace Botec.Application.Utilities;
 
 public class MessageLogger
 {
-    private static readonly MessageLogRepository _messageLogRepository = new();
+    private readonly IMessageLogRepository _messageLogRepository;
+
+    public MessageLogger(IServiceProvider services)
+    {
+        _messageLogRepository = services.GetRequiredService<IMessageLogRepository>();
+    }
 
     public async Task LogUpdate(Update update, CancellationToken cancellationToken)
     {
@@ -23,6 +29,7 @@ public class MessageLogger
             FirstName = from?.FirstName,
             LastName = from?.LastName,
             ChatId = message?.Chat.Id,
+            ChatTitle = message?.Chat.Title,
             Text = message?.Text,
             MessengerType = MessengerType.Telegram,
             Date = message?.Date ?? DateTime.Now,

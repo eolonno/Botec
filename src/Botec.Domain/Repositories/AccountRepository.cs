@@ -1,15 +1,16 @@
 ﻿using Botec.Domain.Entities;
+using Botec.Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace Botec.Domain.Repositories;
 
-public class AccountRepository
+public class AccountRepository : IAccountRepository
 {
     private readonly ApplicationDbContext _context;
 
-    public AccountRepository()
+    public AccountRepository(ApplicationDbContext context)
     {
-        _context = new ApplicationDbContext();
+        _context = context;
     }
 
     public async Task<Account?> GetAccountByAccountIdAsync(long accountId, CancellationToken cancellationToken)

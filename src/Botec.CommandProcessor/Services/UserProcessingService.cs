@@ -1,19 +1,27 @@
-﻿using Botec.Domain.Entities;
+﻿using Botec.CommandProcessor.Interfaces;
+using Botec.Domain.Entities;
 using Botec.Domain.Enums;
-using Botec.Domain.Repositories;
+using Botec.Domain.Interfaces;
+using Microsoft.Extensions.DependencyInjection;
 using Telegram.Bot.Types;
-using Chat = Botec.Domain.Entities.Chat;
 using User = Botec.Domain.Entities.User;
 
 namespace Botec.CommandProcessor.Services;
 
-public class UserProcessingService
+public class UserProcessingService : IUserProcessingService
 {
-    private static readonly UserRepository _userRepository = new();
-    private static readonly AccountRepository _accountRepository = new();
-    private static readonly ChatRepository _chatRepository = new();
+    private readonly IUserRepository _userRepository;
+    private readonly IAccountRepository _accountRepository;
+    private readonly IChatRepository _chatRepository;
 
-    public static async Task RegisterUserIfNotExistAsync(Update update, CancellationToken cancellationToken)
+    public UserProcessingService(IServiceProvider services)
+    {
+        _userRepository = services.GetRequiredService<IUserRepository>();
+        _accountRepository = services.GetRequiredService<IAccountRepository>();
+        _chatRepository = services.GetRequiredService<IChatRepository>();
+    }
+
+    public async Task RegisterUserIfNotExistAsync(Update update, CancellationToken cancellationToken)
     {
         var from = update.Message!.From;
 
@@ -58,7 +66,7 @@ public class UserProcessingService
         }
     }
 
-    public static async Task RegisterUserInTheChatIfNotRegisteredAsync(
+    public async Task RegisterUserInTheChatIfNotRegisteredAsync(
         Update update, CancellationToken cancellationToken)
     {
         var from = update.Message!.From!;

@@ -3,9 +3,9 @@ using Telegram.Bot.Types;
 
 namespace Botec.CommandProcessor.CommandsLogic;
 
-public static class RepeatLogic
+public class RepeatLogic
 {
-    public static async Task RepeatAsync(
+    public async Task RepeatAsync(
         ITelegramBotClient botClient, Update update, string command, CancellationToken cancellationToken)
     {
         var message = update.Message!.Text!;

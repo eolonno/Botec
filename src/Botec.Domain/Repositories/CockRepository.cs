@@ -1,16 +1,15 @@
-﻿using Botec.Domain.Entities;
-using Botec.Domain.Enums;
+﻿using Botec.Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace Botec.Domain.Repositories;
 
-public class CockRepository
+public class CockRepository : ICockRepository
 {
     private readonly ApplicationDbContext _context;
 
-    public CockRepository()
+    public CockRepository(ApplicationDbContext context)
     {
-        _context = new ApplicationDbContext();
+        _context = context;
     }
 
     public async Task<DateTime?> GetLastCommitDateAsync(long accountId, CancellationToken cancellationToken)
@@ -56,7 +55,7 @@ public class CockRepository
             .Select(x => x.User.Cock)
             .FirstOrDefaultAsync(cancellationToken);
 
-        cock.Length += lengthToChange;
+        cock!.Length += lengthToChange;
         cock.LastCommitDate = DateTime.Today;
 
         await _context.SaveChangesAsync(cancellationToken);
@@ -71,7 +70,7 @@ public class CockRepository
             .Select(x => x.User.Cock)
             .FirstOrDefaultAsync(cancellationToken);
 
-        cock.Length *= 2;
+        cock!.Length *= 2;
         cock.LastCommitDate = DateTime.Today;
 
         await _context.SaveChangesAsync(cancellationToken);
@@ -86,7 +85,7 @@ public class CockRepository
             .Select(x => x.User.Cock)
             .FirstOrDefaultAsync(cancellationToken);
 
-        cock.Length = 0;
+        cock!.Length = 0;
         cock.LastCommitDate = DateTime.Today;
 
         await _context.SaveChangesAsync(cancellationToken);

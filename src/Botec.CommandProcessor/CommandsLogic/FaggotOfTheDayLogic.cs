@@ -1,5 +1,6 @@
 ﻿using Botec.CommandProcessor.Answers;
-using Botec.Domain.Repositories;
+using Botec.Domain.Interfaces;
+using Microsoft.Extensions.DependencyInjection;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 
@@ -7,10 +8,16 @@ namespace Botec.CommandProcessor.CommandsLogic;
 
 public class FaggotOfTheDayLogic
 {
-    private static AccountRepository _accountRepository = new();
-    private static ChatRepository _chatRepository = new();
+    private readonly IAccountRepository _accountRepository;
+    private readonly IChatRepository _chatRepository;
 
-    public static async Task PrintFaggotOfTheDay(
+    public FaggotOfTheDayLogic(IServiceProvider services)
+    {
+        _accountRepository = services.GetRequiredService<IAccountRepository>();
+        _chatRepository = services.GetRequiredService<IChatRepository>();
+    }
+
+    public async Task PrintFaggotOfTheDay(
         ITelegramBotClient botClient, Update update, string command, CancellationToken cancellationToken)
     {
         var chat = update.Message!.Chat!;

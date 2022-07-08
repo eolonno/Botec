@@ -1,15 +1,16 @@
 ﻿using Botec.Domain.Entities;
+using Botec.Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace Botec.Domain.Repositories;
 
-public class UserRepository
+public class UserRepository : IUserRepository
 {
     private readonly ApplicationDbContext _context;
 
-    public UserRepository()
+    public UserRepository(ApplicationDbContext context)
     {
-        _context = new ApplicationDbContext();
+        _context = context;
     }
 
     public async Task AddUserAsync(User user, CancellationToken cancellationToken)
