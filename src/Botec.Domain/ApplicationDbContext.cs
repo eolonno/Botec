@@ -11,6 +11,7 @@ public class ApplicationDbContext : DbContext
     public DbSet<Cock> Cock { get; set; }
     public DbSet<NicknameOfTheDay> NicknameOfTheDay { get; set; }
     public DbSet<Nickname> Nickname { get; set; }
+    public DbSet<NicknameIntroductoryPhrase> NicknameIntroductoryPhrase { get; set; }
     public DbSet<Joke> Joke { get; set; }
     public DbSet<MessageLog> MessageLog { get; set; }
 

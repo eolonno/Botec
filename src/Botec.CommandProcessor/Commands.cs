@@ -53,4 +53,12 @@ public class Commands
         "bot i want to fuck",
         "bot, i want to fuck"
     };
+
+    public static readonly IEnumerable<string> NickNameOfTheDayCommands = new List<string>
+    {
+        "бот кто я",
+        "бот, кто я",
+        "bot who i am",
+        "bot, who i am"
+    };
 }

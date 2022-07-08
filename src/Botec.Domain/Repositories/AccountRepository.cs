@@ -18,6 +18,9 @@ public class AccountRepository : IAccountRepository
         return await _context.Account
             .AsNoTracking()
             .Include(x => x.Chats)
+            .Include(x => x.User)
+            .ThenInclude(x => x.NicknameOfTheDay)
+            .ThenInclude(x => x.Nickname)
             .FirstOrDefaultAsync(x => x.Id == accountId, cancellationToken);
     }
 

@@ -11,7 +11,7 @@ namespace Botec.Application;
 
 public class MessageProcessingService
 {
-    private readonly Dictionary<IEnumerable<string>, Func<ITelegramBotClient, Update, string, CancellationToken, Task>> CommandsDictionary;
+    private readonly Dictionary<IEnumerable<string>, Func<ITelegramBotClient, Update, string, CancellationToken, Task>> _commandsDictionary;
 
     private readonly IChatProcessingService _chatProcessingService;
     private readonly IUserProcessingService _userProcessingService;
@@ -22,6 +22,7 @@ public class MessageProcessingService
     private readonly FaggotOfTheDayLogic _faggotOfTheDayLogic;
     private readonly JokeLogic _jokeLogic;
     private readonly FuckLogic _fuckLogic;
+    private readonly NicknameOfTheDayLogic _nicknameOfTheDayLogic;
 
     public MessageProcessingService(IServiceProvider services)
     {
@@ -31,11 +32,12 @@ public class MessageProcessingService
         _faggotOfTheDayLogic = new FaggotOfTheDayLogic(services);
         _jokeLogic = new JokeLogic();
         _fuckLogic = new FuckLogic(services);
+        _nicknameOfTheDayLogic = new NicknameOfTheDayLogic(services);
 
         _chatProcessingService = services.GetRequiredService<IChatProcessingService>();
         _userProcessingService = services.GetRequiredService<IUserProcessingService>();
 
-        CommandsDictionary = GetCommandsDictionary();
+        _commandsDictionary = GetCommandsDictionary();
     }
 
     public async Task ProcessMessage(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken)
@@ -53,7 +55,7 @@ public class MessageProcessingService
         await _userProcessingService.RegisterUserIfNotExistAsync(update, cancellationToken);
         await _userProcessingService.RegisterUserInTheChatIfNotRegisteredAsync(update, cancellationToken);
 
-        foreach (var command in CommandsDictionary)
+        foreach (var command in _commandsDictionary)
         {
             var sessionCommand = command.Key.FirstOrDefault(x => message.ToLower().StartsWith(x));
             if (sessionCommand is not null)
@@ -75,6 +77,7 @@ public class MessageProcessingService
             { Commands.FaggotOfTheDayCommands, _faggotOfTheDayLogic.PrintFaggotOfTheDay },
             { Commands.BanekJokeCommands, _jokeLogic.PrintBaneksJoke },
             { Commands.FuckCommands, _fuckLogic.FuckSomebody },
+            { Commands.NickNameOfTheDayCommands, _nicknameOfTheDayLogic.PrintNicknameOfTheDay },
         };
 
         return commands;
