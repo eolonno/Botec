@@ -20,20 +20,29 @@ public class WeatherLogic
     {
         var message = update.Message!.Text!;
         var commandEndIndex = command.Length;
-        var city = message.Substring(commandEndIndex, message.Length - commandEndIndex);
+        var city = message
+            .Substring(commandEndIndex, message.Length - commandEndIndex)
+            .Replace(" ", string.Empty);
 
         if (city == string.Empty)
             return;
 
         var weatherApi = new OpenWeatherApiClient(_token);
-        var weatherInfo = await weatherApi.QueryAsync(city);
+        QueryResponse weatherInfo;
 
-        if (!weatherInfo.ValidRequest)
+        try
+        {
+            weatherInfo = await weatherApi.QueryAsync(city + "&lang=ru");
+        }
+        catch
+        {
             await botClient.SendTextMessageAsync(
                 chatId: update.Message.Chat.Id,
                 text: WeatherAnswers.GetWeatherRejection(),
                 cancellationToken: cancellationToken);
-
+            return;
+        }
+        
         await botClient.SendTextMessageAsync(
             chatId: update.Message.Chat.Id,
             text: WeatherAnswers.GetWeatherString(weatherInfo, city),
