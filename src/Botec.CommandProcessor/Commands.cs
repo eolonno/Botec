@@ -83,4 +83,12 @@ public class Commands
         "bot random",
         "bot, random"
     };
+
+    public static readonly IEnumerable<string> WeatherCommands = new List<string>
+    {
+        "бот погода",
+        "бот, погда",
+        "bot weather",
+        "bot, weather"
+    };
 }

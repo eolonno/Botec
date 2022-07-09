@@ -40,7 +40,7 @@ using var host = Host.CreateDefaultBuilder()
     .Build();
 
 var botClient = new TelegramBotClient(configuration["TelegramToken"]);
-var messageProcessingService = new MessageProcessingService(host.Services);
+var messageProcessingService = new MessageProcessingService(host.Services, configuration);
 
 using var cancellationToken = new CancellationTokenSource();
 
