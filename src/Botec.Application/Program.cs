@@ -32,7 +32,8 @@ using var host = Host.CreateDefaultBuilder()
             .AddScoped<ICockRepository, CockRepository>()
             .AddScoped<IMessageLogRepository, MessageLogRepository>()
             .AddScoped<IUserRepository, UserRepository>()
-            .AddScoped<INicknameRepository, NicknameRepository>())
+            .AddScoped<INicknameRepository, NicknameRepository>()
+            .AddScoped<IJokeRepository, JokeRepository>())
     .ConfigureLogging(logging => 
         logging
             .AddFilter("Microsoft.EntityFrameworkCore.Database.Command", LogLevel.Warning))

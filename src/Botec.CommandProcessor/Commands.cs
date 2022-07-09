@@ -46,6 +46,20 @@ public class Commands
         "bot anek"
     };
 
+    public static readonly IEnumerable<string> DanilaJokeCommands = new List<string>
+    {
+        "бот данек",
+        "бот даник",
+        "бот данег",
+        "бот, данек",
+        "бот, даник",
+        "бот, данег",
+        "bot danik",
+        "bot daneg",
+        "bot, danik",
+        "bot, daneg"
+    };
+
     public static readonly IEnumerable<string> FuckCommands = new List<string>
     {
         "бот хочу ебаться",
