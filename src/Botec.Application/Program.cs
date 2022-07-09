@@ -39,7 +39,7 @@ using var host = Host.CreateDefaultBuilder()
             .AddFilter("Microsoft.EntityFrameworkCore.Database.Command", LogLevel.Warning))
     .Build();
 
-var botClient = new TelegramBotClient(configuration["Token"]);
+var botClient = new TelegramBotClient(configuration["TelegramToken"]);
 var messageProcessingService = new MessageProcessingService(host.Services);
 
 using var cancellationToken = new CancellationTokenSource();
