@@ -61,4 +61,12 @@ public class Commands
         "bot who i am",
         "bot, who i am"
     };
+
+    public static readonly IEnumerable<string> RandomEmojiCommands = new List<string>
+    {
+        "бот рандом",
+        "бот, рандом",
+        "bot random",
+        "bot, random"
+    };
 }

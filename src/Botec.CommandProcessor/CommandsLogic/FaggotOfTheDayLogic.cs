@@ -17,7 +17,7 @@ public class FaggotOfTheDayLogic
         _chatRepository = services.GetRequiredService<IChatRepository>();
     }
 
-    public async Task PrintFaggotOfTheDay(
+    public async Task PrintFaggotOfTheDayAsync(
         ITelegramBotClient botClient, Update update, string command, CancellationToken cancellationToken)
     {
         var chat = update.Message!.Chat!;

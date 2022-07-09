@@ -18,7 +18,7 @@ public class NicknameOfTheDayLogic
         _nicknameRepository = services.GetRequiredService<INicknameRepository>();
     }
 
-    public async Task PrintNicknameOfTheDay(
+    public async Task PrintNicknameOfTheDayAsync(
         ITelegramBotClient botClient, Update update, string command, CancellationToken cancellationToken)
     {
         var from = update.Message!.From!;
