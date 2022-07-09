@@ -15,7 +15,7 @@ public class FuckLogic
         _accountRepository = services.GetRequiredService<IAccountRepository>();
     }
 
-    public async Task FuckSomebody(
+    public async Task FuckSomebodyAsync(
         ITelegramBotClient botClient, Update update, string command, CancellationToken cancellationToken)
     {
         var chat = update.Message!.Chat!;

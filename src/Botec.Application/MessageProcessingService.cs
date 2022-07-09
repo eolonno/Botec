@@ -23,6 +23,7 @@ public class MessageProcessingService
     private readonly JokeLogic _jokeLogic;
     private readonly FuckLogic _fuckLogic;
     private readonly NicknameOfTheDayLogic _nicknameOfTheDayLogic;
+    private readonly RandomEmojiLogic _randomEmojiLogic;
 
     public MessageProcessingService(IServiceProvider services)
     {
@@ -33,6 +34,7 @@ public class MessageProcessingService
         _jokeLogic = new JokeLogic();
         _fuckLogic = new FuckLogic(services);
         _nicknameOfTheDayLogic = new NicknameOfTheDayLogic(services);
+        _randomEmojiLogic = new RandomEmojiLogic();
 
         _chatProcessingService = services.GetRequiredService<IChatProcessingService>();
         _userProcessingService = services.GetRequiredService<IUserProcessingService>();
@@ -72,12 +74,14 @@ public class MessageProcessingService
         {
             { Commands.RepeatCommands, _repeatLogic.RepeatAsync },
             { Commands.UpdateCockCommands, _cockLogic.UpdateCockAsync },
-            { Commands.CocksTopCommands, _cockLogic.PrintCocksTop },
-            { Commands.AbsoluteRatingCommands, _cockLogic.PrintAbsoluteCockPosition },
-            { Commands.FaggotOfTheDayCommands, _faggotOfTheDayLogic.PrintFaggotOfTheDay },
-            { Commands.BanekJokeCommands, _jokeLogic.PrintBaneksJoke },
-            { Commands.FuckCommands, _fuckLogic.FuckSomebody },
-            { Commands.NickNameOfTheDayCommands, _nicknameOfTheDayLogic.PrintNicknameOfTheDay },
+            { Commands.CocksTopCommands, _cockLogic.PrintCocksTopAsync },
+            { Commands.AbsoluteRatingCommands, _cockLogic.PrintAbsoluteCockPositionAsync },
+            { Commands.FaggotOfTheDayCommands, _faggotOfTheDayLogic.PrintFaggotOfTheDayAsync },
+            { Commands.BanekJokeCommands, _jokeLogic.PrintBaneksJokeAsync },
+            { Commands.FuckCommands, _fuckLogic.FuckSomebodyAsync },
+            { Commands.NickNameOfTheDayCommands, _nicknameOfTheDayLogic.PrintNicknameOfTheDayAsync },
+            { Commands.RandomEmojiCommands, _randomEmojiLogic.PrintRandomEmojiAsync }
+
         };
 
         return commands;

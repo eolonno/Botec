@@ -70,7 +70,7 @@ public class CockLogic
         //    cancellationToken: cancellationToken);
     }
 
-    public async Task PrintCocksTop(
+    public async Task PrintCocksTopAsync(
         ITelegramBotClient botClient, Update update, string command, CancellationToken cancellationToken)
     {
         var chat = update.Message!.Chat;
@@ -110,7 +110,7 @@ public class CockLogic
             cancellationToken: cancellationToken);
     }
 
-    public async Task PrintAbsoluteCockPosition(
+    public async Task PrintAbsoluteCockPositionAsync(
         ITelegramBotClient botClient, Update update, string command, CancellationToken cancellationToken)
     {
         var from = update.Message!.From!;

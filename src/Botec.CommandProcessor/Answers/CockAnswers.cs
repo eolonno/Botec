@@ -26,7 +26,10 @@ public class CockAnswers
         => "Топ коков:";
 
     public static string GetCocksTopString(int number, bool hasIronCock, string firstName, string lastName, int length)
-        => $"{number}. {firstName} {lastName } ({length} см)".RemoveWhitespaces();
+    {
+        var ironCockString = hasIronCock ? "🐔" : string.Empty;
+        return $"{number}. {ironCockString} {firstName} {lastName} ({length} см)".RemoveWhitespaces();
+    }
 
     public static string GetCockAbsoluteString(int number)
         => $"Твое место в абсолютном рейтинге: {number}";
