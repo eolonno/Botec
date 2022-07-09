@@ -2,6 +2,7 @@
 using Botec.CommandProcessor;
 using Botec.CommandProcessor.CommandsLogic;
 using Botec.CommandProcessor.Interfaces;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using Telegram.Bot;
@@ -24,8 +25,9 @@ public class MessageProcessingService
     private readonly FuckLogic _fuckLogic;
     private readonly NicknameOfTheDayLogic _nicknameOfTheDayLogic;
     private readonly RandomEmojiLogic _randomEmojiLogic;
+    private readonly WeatherLogic _weatherLogic;
 
-    public MessageProcessingService(IServiceProvider services)
+    public MessageProcessingService(IServiceProvider services, IConfigurationRoot configuration)
     {
         _messageLogger = new MessageLogger(services);
         _repeatLogic = new RepeatLogic();
@@ -35,6 +37,7 @@ public class MessageProcessingService
         _fuckLogic = new FuckLogic(services);
         _nicknameOfTheDayLogic = new NicknameOfTheDayLogic(services);
         _randomEmojiLogic = new RandomEmojiLogic();
+        _weatherLogic = new WeatherLogic(configuration["WeatherToken"]);
 
         _chatProcessingService = services.GetRequiredService<IChatProcessingService>();
         _userProcessingService = services.GetRequiredService<IUserProcessingService>();
@@ -81,7 +84,8 @@ public class MessageProcessingService
             { Commands.DanilaJokeCommands, _jokeLogic.PrintDanilaJokeAsync },
             { Commands.FuckCommands, _fuckLogic.FuckSomebodyAsync },
             { Commands.NickNameOfTheDayCommands, _nicknameOfTheDayLogic.PrintNicknameOfTheDayAsync },
-            { Commands.RandomEmojiCommands, _randomEmojiLogic.PrintRandomEmojiAsync }
+            { Commands.RandomEmojiCommands, _randomEmojiLogic.PrintRandomEmojiAsync },
+            { Commands.WeatherCommands, _weatherLogic.PrintWeatherAsync },
 
         };
 
