@@ -1,6 +1,9 @@
 ﻿using Botec.CommandProcessor.Answers;
+using Botec.CommandProcessor.Utilities.Extensions;
+using Botec.Domain.Interfaces;
 using Fizzler.Systems.HtmlAgilityPack;
 using HtmlAgilityPack;
+using Microsoft.Extensions.DependencyInjection;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 
@@ -8,6 +11,13 @@ namespace Botec.CommandProcessor.CommandsLogic;
 
 public class JokeLogic
 {
+    private readonly IJokeRepository _jokeRepository;
+
+    public JokeLogic(IServiceProvider services)
+    {
+        _jokeRepository = services.GetRequiredService<IJokeRepository>();
+    }
+
     public async Task PrintBaneksJokeAsync(
         ITelegramBotClient botClient, Update update, string command, CancellationToken cancellationToken)
     {
@@ -21,6 +31,17 @@ public class JokeLogic
         await botClient.SendTextMessageAsync(
             chatId: update.Message!.Chat.Id,
             text: joke ?? JokeAnswers.GetJokeExceptionUserMessage(),
+            cancellationToken: cancellationToken);
+    }
+
+    public async Task PrintDanilaJokeAsync(
+        ITelegramBotClient botClient, Update update, string command, CancellationToken cancellationToken)
+    {
+        var randomJoke = (await _jokeRepository.GetAllJokesAsync(cancellationToken)).GetRandomElement();
+
+        await botClient.SendTextMessageAsync(
+            chatId: update.Message!.Chat.Id,
+            text: randomJoke.Text,
             cancellationToken: cancellationToken);
     }
 }

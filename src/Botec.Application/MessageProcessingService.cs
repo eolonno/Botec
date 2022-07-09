@@ -31,7 +31,7 @@ public class MessageProcessingService
         _repeatLogic = new RepeatLogic();
         _cockLogic = new CockLogic(services);
         _faggotOfTheDayLogic = new FaggotOfTheDayLogic(services);
-        _jokeLogic = new JokeLogic();
+        _jokeLogic = new JokeLogic(services);
         _fuckLogic = new FuckLogic(services);
         _nicknameOfTheDayLogic = new NicknameOfTheDayLogic(services);
         _randomEmojiLogic = new RandomEmojiLogic();
@@ -78,6 +78,7 @@ public class MessageProcessingService
             { Commands.AbsoluteRatingCommands, _cockLogic.PrintAbsoluteCockPositionAsync },
             { Commands.FaggotOfTheDayCommands, _faggotOfTheDayLogic.PrintFaggotOfTheDayAsync },
             { Commands.BanekJokeCommands, _jokeLogic.PrintBaneksJokeAsync },
+            { Commands.DanilaJokeCommands, _jokeLogic.PrintDanilaJokeAsync },
             { Commands.FuckCommands, _fuckLogic.FuckSomebodyAsync },
             { Commands.NickNameOfTheDayCommands, _nicknameOfTheDayLogic.PrintNicknameOfTheDayAsync },
             { Commands.RandomEmojiCommands, _randomEmojiLogic.PrintRandomEmojiAsync }
